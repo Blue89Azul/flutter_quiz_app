@@ -21,8 +21,38 @@ class _QuestionScreenState extends State<QuestionsScreen> {
 
   @override
   Widget build(context) {
-    return const Center(
-      child: Text('Questions Screen'),
+    final QuizQuestion currentQuestion = questions[currentQuestionIndex];
+
+    return SizedBox(
+      width: double.infinity, // That valuable is the same as Java.
+      child: Container(
+        margin: const EdgeInsets.all(40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              currentQuestion.text,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            ...currentQuestion.getShuffledAnswers().map((item) {
+              // That's amazing!!!
+              return AnswerButton(
+                answerText: item,
+                onTap: () {
+                  answerQuestion();
+                },
+              );
+            }),
+          ],
+        ),
+      ),
     );
   }
 }
