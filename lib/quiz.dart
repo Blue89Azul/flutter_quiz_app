@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/questions_screen.dart';
+import 'package:quiz_app/results_screen.dart';
 import 'package:quiz_app/start_screen.dart';
 import 'package:quiz_app/data/questions.dart';
 
@@ -23,20 +24,26 @@ class _QuizState extends State<Quiz> {
   void chooseAnswer(String answer) {
     selectedAnswers.add(answer);
     if (selectedAnswers.length == questions.length) {
-      selectedAnswers.clear();
+      selectedAnswers.clear(); // This list is empty, it means, this list has only Null.
       setState(() {
-        activeScreen = 'start_screen';
+        activeScreen = 'results_screen';
       });
     }
   }
 
   @override
   Widget build(context) {
-    Widget screenWidget = activeScreen == 'start_screen'
-        ? StartScreen(switchScreen)
-        : QuestionsScreen(
-            onSelectAnswer: chooseAnswer,
-          );
+    Widget screenWidget = StartScreen(switchScreen);
+    if(activeScreen == 'questions_screen') {
+      screenWidget = QuestionsScreen(
+        onSelectAnswer: chooseAnswer,
+      );
+    }
+    if(activeScreen == 'results_screen') {
+      screenWidget = ResultsScreen(
+        chosenAnswers: selectedAnswers,
+      );
+    }
 
     return MaterialApp(
       home: Scaffold(
