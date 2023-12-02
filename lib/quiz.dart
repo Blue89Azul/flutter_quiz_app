@@ -24,11 +24,17 @@ class _QuizState extends State<Quiz> {
   void chooseAnswer(String answer) {
     selectedAnswers.add(answer);
     if (selectedAnswers.length == questions.length) {
-      selectedAnswers.clear(); // This list is empty, it means, this list has only Null.
       setState(() {
         activeScreen = 'results_screen';
       });
     }
+  }
+
+  void resetAnswer() {
+    selectedAnswers.clear();
+    setState(() {
+      activeScreen = 'questions_screen';
+    });
   }
 
   @override
@@ -42,6 +48,7 @@ class _QuizState extends State<Quiz> {
     if(activeScreen == 'results_screen') {
       screenWidget = ResultsScreen(
         chosenAnswers: selectedAnswers,
+        resetAnswer: resetAnswer,
       );
     }
 
